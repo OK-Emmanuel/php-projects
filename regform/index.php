@@ -1,12 +1,8 @@
 <?php 
-$connection = mysqli_connect("localhost", "root", "", "ksweb");
 session_start();
-// if($connection){
-//     echo "connected successfully";
-// }
-// else{
-//     echo "Unable to connect";
-// }
+$connection = mysqli_connect("localhost", "root", "", "ksweb");
+
+
 if (isset($_POST['signup'])){
     $username = $_POST['name'];
     $email = $_POST['email'];
@@ -22,7 +18,9 @@ if (isset($_POST['signup'])){
 
     if(mysqli_num_rows($check2) > 0){
         // avoid existing user from registering again
-        header("Location: index.php");
+        $_SESSION['error'] = "User Already Exists, Please login to your account";
+        // header("Location: index.php");
+        
        
        
     }else{
@@ -41,7 +39,16 @@ if (isset($_POST['signup'])){
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
+    <h4>
+        <?php 
+        if(isset($_SESSION['error'])){
+            echo $_SESSION['error']; 
+            unset($_SESSION['error']);
+        }
+        // echo $_SESSION['error'];
+         ?></h4>
         <div class="container" id="container">
+       
             <div class="form-container sign-up-container">
                 <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                     <h1>Create Account</h1>
@@ -56,6 +63,7 @@ if (isset($_POST['signup'])){
 
             <div class="form-container sign-in-container">
                 <form action="dashboard.php" method="POST">
+                   
                     <h1>Sign in</h1>
                     
                     <p style="font-weight: bold">Provide your details</p>
