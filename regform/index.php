@@ -1,7 +1,6 @@
 <?php 
 session_start();
-$connection = mysqli_connect("localhost", "root", "", "ksweb");
-
+include("database.php");
 
 if (isset($_POST['signup'])){
     $username = $_POST['name'];
