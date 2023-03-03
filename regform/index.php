@@ -29,8 +29,7 @@ if (isset($_POST['signup'])){
             echo "<script>alert('You are successfully registered')</script>";
         }
     }
-}
-
+}// close signup process
 ?>
 <html>
     <title>Authentication Form</title>
@@ -61,7 +60,7 @@ if (isset($_POST['signup'])){
             </div>
 
             <div class="form-container sign-in-container">
-                <form action="dashboard.php" method="POST">
+                <form action="index.php" method="POST">
                    
                     <h1>Sign in</h1>
                     
@@ -91,3 +90,23 @@ if (isset($_POST['signup'])){
         <script src="app.js"></script>
     </body>
 </html>
+
+<?php 
+if(isset($_POST['signin'])){
+    $mail = $_POST['login_email'];
+    $password = $_POST['login_password'];
+
+    // Check if User Exists
+    $exist = "SELECT * FROM users WHERE user_email = '$mail' AND user_pas = '$password'";
+    $checkExist = mysqli_query($connection, $exist); 
+    if(mysqli_num_rows($checkExist) > 0 ){
+        $_SESSION['success'] = "Welcome Back";
+        $_SESSION['user'] = $mail;
+        header("Location: profile.php");
+        
+    } else{
+        echo "<br> Your Account is not found. <a href='index.php'>Go back</a>";
+    }
+
+}
+?>
